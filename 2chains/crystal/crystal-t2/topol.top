@@ -1,0 +1,64 @@
+;
+;	File 'topol.top' was generated
+;	By user: joana (1007)
+;	On host: joana.cluster2
+;	At date: Thu Sep 15 16:13:14 2022
+;
+;	This is a standalone topology file
+;
+;	Created by:
+;	                    :-) GROMACS - gmx pdb2gmx, 2019.6 (-:
+;	
+;	Executable:   /usr/bin/gmx
+;	Data prefix:  /usr
+;	Working dir:  /home/joana/master2/doutoramento/3c79-IMD/3c79-chainA-B/3c79-chainA-B/ref
+;	Command line:
+;	  gmx pdb2gmx -f 3c79-chainA-B-protein.pdb -o 3c79-chainA-B-protein.gro
+;	Force field was read from the standard GROMACS share directory.
+;
+
+; Include forcefield parameters
+#include "amber99sb-ildn.ff/forcefield.itp"
+
+[ atomtypes ]
+#include "imd_atoms.itp"
+
+; Include chain topologies
+#include "topol_Protein_chain_A.itp"
+#include "topol_Protein_chain_B.itp"
+
+
+#include "IMD_GMX.itp"
+
+; Ligand position restraints
+#ifdef POSRES
+#include "posre_imd.itp"
+#endif
+
+
+; Include water topology
+#include "amber99sb-ildn.ff/tip4pew.itp"
+
+#ifdef POSRES_WATER
+; Position restraint for each water oxygen
+[ position_restraints ]
+;  i funct       fcx        fcy        fcz
+   1    1       1000       1000       1000
+#endif
+
+; Include topology for ions
+#include "amber99sb-ildn.ff/ions.itp"
+
+[ system ]
+; Name
+Protein in water
+
+[ molecules ]
+; Compound        #mols
+Protein_chain_A     1
+Protein_chain_B     1
+IMD                 1
+SOL                23
+SOL                24
+SOL         37908
+NA               19
